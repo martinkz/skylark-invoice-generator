@@ -1,0 +1,186 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>Chuchuliga Invoices</title>
+
+  <style>
+    html,
+    body {
+      box-sizing: border-box;
+    }
+    *,
+    *:before,
+    *:after {
+      box-sizing: inherit;
+    }
+    html, body {
+      margin: 0;
+    }
+    img {
+      max-width: 100%;
+    }
+    .invoice-container {
+      max-width: 650px;
+      margin: 0 auto;
+    }
+    .invoice-container > .grid-row {
+      margin-bottom: 5rem;
+    }
+    .grid-row {
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      /* align-items: */
+    }
+    .grid-col {
+      position: relative;
+      /* padding: 3rem 4rem; */
+    }
+
+    .main-table {
+      width: 100%;
+      text-align: left;
+      border-spacing: 0;
+      border-collapse: collapse;
+      border: 1px solid #bbb;
+    }
+
+    th {
+      background: #ddd;
+      padding: 1rem;
+    }
+    td {
+      padding: 0.5rem 1rem;
+      border: 1px solid #bbb;
+    }
+    .cell-bg {
+      font-weight: bold;
+      background: #ddd;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div id="invoice" class="invoice-container">
+
+    <div class="grid-row">
+      <div class="grid-col">
+        <h1>Invoice</h1>
+      </div>
+      <div class="grid-col">
+        <h3>www.chuchuliga.uk</h3>
+      </div>
+    </div>
+
+    <div class="grid-row">
+      <div class="grid-col">
+        <h2>Bulgarian School Chuchuliga Ltd</h2>
+        <address>
+          61 Campion Close<br>
+          Croydon, CR0 5SN<br>
+          United Kingdom<br><br>
+          Tel: +44(0) 7729 468 479<br>
+          Email: chuchuliga.uk@gmail.com
+        </address>
+      </div>
+      <div class="grid-col">
+        <div class="grid-row">
+          <div class="grid-col">
+            <p>Date</p>
+          </div>
+          <div class="grid-col">
+            <p>01/10/2022</p>
+          </div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-col">
+            <p>Invoice No</p>
+          </div>
+          <div class="grid-col">
+            <p>SF22-0324</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-row">
+      <div class="grid-col">
+        <h2>Bank details</h2>
+        <p>Barclays PLC<br>
+        Account No: 63612139<br>
+        Sort Code: 20-45-45</p>
+      </div>
+      <div class="grid-col">
+        <h2>Bill to</h2>
+        <h3>Kostadin Iliev</h3>
+        <p>Contact details:<br>
+          plamena92work@gmail.com</p>
+      </div>
+    </div>
+
+    <table class="main-table">
+      <tr>
+        <th>Quantity</th>
+        <th>Description</th>
+        <th>Unit Price</th>
+        <th>Subtotal</th>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>School fee - 1 st term, 2022/2023<br>
+          Alexander Iliev<br>
+          Christian Iliev</td>
+        <td>£130<br>£100</td>
+        <td>£230</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td>VAT</td>
+        <td>0.00</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td class="cell-bg">Total</td>
+        <td class="cell-bg">£230</td>
+      </tr>
+    </table> 
+
+  </div>
+
+<script src="script/html2pdf.bundle.min.js"></script>
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  let invoiceID = false;
+  if(urlParams.has('id')) {
+    invoiceID = urlParams.get('id');
+  }
+
+  fetch(`https://sheets.googleapis.com/v4/spreadsheets/1oQronS_Sq679Oy1DAXL3A7xgDb0MrYbixRx8m6Su08o/values/2022-2023-T1?key=AIzaSyAsaZWn7_HcXpR69f_wKRaSX1dQXwwlOxg`)
+  .then(response => response.json())
+  .then(data => {
+    data.values.shift();
+    const invoiceData = data.values;
+    // console.log(invoiceData);
+    for(idx in invoiceData) {
+      if(invoiceData[idx][0] === invoiceID) {
+        console.log(invoiceData[idx]);
+      }
+    }
+  });
+
+  var element = document.getElementById('invoice');
+  // html2pdf(element);
+
+</script>
+</body>
+</html>
