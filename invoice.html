@@ -187,9 +187,9 @@
 <script src="script/html2pdf.bundle.min.js"></script>
 <script>
   const urlParams = new URLSearchParams(window.location.search);
-  let invoiceID = false;
+  let invoiceName = false;
   if(urlParams.has('id')) {
-    invoiceID = urlParams.get('id');
+    invoiceName = atob(urlParams.get('id'));
   }
 
   fetch(`https://sheets.googleapis.com/v4/spreadsheets/1oQronS_Sq679Oy1DAXL3A7xgDb0MrYbixRx8m6Su08o/values/2022-2023-T1?key=AIzaSyAsaZWn7_HcXpR69f_wKRaSX1dQXwwlOxg`)
@@ -199,7 +199,7 @@
     const invoiceData = data.values;
     // console.log(invoiceData);
     for(idx in invoiceData) {
-      if(invoiceData[idx][0] === invoiceID) {
+      if(invoiceData[idx][1] === invoiceName) {
         console.log(invoiceData[idx]);
       }
     }
