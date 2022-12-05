@@ -23,12 +23,18 @@
       line-height: 1.5;
       color: #000;
     }
+    @media(max-width: 500px) {
+      html, body {
+        font-size: 14px;
+      }
+    }
     img {
       max-width: 100%;
     }
     .invoice-container {
       max-width: 650px;
       margin: 1rem auto;
+      padding: 1rem;
     }
     .invoice-container > .grid-row {
       margin-bottom: 3rem;
@@ -38,6 +44,11 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 3rem;
+    }
+    @media(max-width: 500px) {
+      .grid-row {
+        gap: 5px;
+      }
     }
     .grid-col {
       position: relative;
