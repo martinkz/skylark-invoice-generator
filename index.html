@@ -135,7 +135,7 @@
             <p><strong>Date</strong></p>
           </div>
           <div class="grid-col">
-            <p data-js="js_date"></p>
+            <p>{{Date}}</p>
           </div>
         </div>
         <div class="grid-row">
@@ -143,7 +143,7 @@
             <p><strong>Invoice No</strong></p>
           </div>
           <div class="grid-col">
-            <p data-js="js_invoice_no"></p>
+            <p>{{Invoice No}}</p>
           </div>
         </div>
       </div>
@@ -158,9 +158,8 @@
       </div>
       <div class="grid-col">
         <h2>Bill to</h2>
-        <h3 data-js="js_bill_to"></h3>
-        <p>Contact details:<br>
-          <span data-js="js_email"></span>
+        <h3>{{Bill To}}</h3>
+        <p>Contact details:<br>{{Email}}
         </p>
       </div>
     </div>
@@ -174,11 +173,10 @@
       </tr>
       <tr>
         <td>1</td>
-        <td><span data-js="js_description"></span><br>
-          <span data-js="js_child"></span>
+        <td>{{Description}}<br>{{Child}}
         </td>
-        <td data-js="js_unit_price"></td>
-        <td data-js="js_total_price"></td>
+        <td>{{Unit Price}}</td>
+        <td>{{Total price}}</td>
       </tr>
       <tr>
         <td></td>
@@ -190,49 +188,18 @@
         <td></td>
         <td></td>
         <td class="cell-bg">Total</td>
-        <td data-js="js_total_price" class="cell-bg"></td>
+        <td class="cell-bg">{{Total price}}</td>
       </tr>
     </table> 
 
   </div>
 
 
-<script>
-  const urlParams = new URLSearchParams(window.location.search);
-  let invoiceName = false;
-  if(urlParams.has('id')) {
-    invoiceName = atob(urlParams.get('id'));
-  }
-
-  fetch(`https://sheets.googleapis.com/v4/spreadsheets/1oQronS_Sq679Oy1DAXL3A7xgDb0MrYbixRx8m6Su08o/values/2022-2023-T1?key=AIzaSyAsaZWn7_HcXpR69f_wKRaSX1dQXwwlOxg`)
-  .then(response => response.json())
-  .then(data => {
-    let columnNames = data.values.shift();
-    let jsElementNames = columnNames.map(val => 'js_'+val.replace(' ', '_').toLowerCase());
-    const invoiceData = data.values;
-    let fields = {};
-    console.log(jsElementNames);
-    // console.log(invoiceData);
-    for(idx in invoiceData) {
-      if(invoiceData[idx][1] === invoiceName) {
-        jsElementNames.forEach((val, key) => fields[val] = invoiceData[idx][key]);
-        console.log(fields);
-        let jsEls = document.querySelectorAll('[data-js^="js_"]');
-        jsEls.forEach(el => {
-          if(fields.hasOwnProperty(el.dataset.js)) {
-            el.innerHTML = fields[el.dataset.js];
-          }
-        });
-      }
-    }
-  });
-</script>
-
-<script src="script/html2pdf.bundle.min.js"></script>
-<script>
-  // var element = document.getElementById('invoice');
-  // html2pdf(element);
-</script>
+  <script src="script/html2pdf.bundle.min.js"></script>
+  <script>
+    // var element = document.getElementById('invoice');
+    // html2pdf(element);
+  </script>
 
 </body>
 </html>
