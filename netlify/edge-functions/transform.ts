@@ -10,7 +10,7 @@ export default async (request: Request, context: Context) => {
     return new Response(null, response);
   }
 
-  let invoiceName;
+  let invoiceName: string;
 
   try {
     invoiceName = atob(url.searchParams.get("id")!);
