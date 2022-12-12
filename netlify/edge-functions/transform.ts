@@ -19,11 +19,14 @@ export default async (request: Request, context: Context) => {
     return new Response('<!doctype html><html><body>Invoice ID not found.</body></html>', response);
   }
 
+  let sheetId: string = Deno.env.get("GOOGLE_SHEET_ID");
+  let sheetKey: string = Deno.env.get("GOOGLE_SHEET_KEY");
+
   context.log(`Transforming ${url} for name: ${invoiceName}`);
 
-  // Get all sheet names: https://sheets.googleapis.com/v4/spreadsheets/1oQronS_Sq679Oy1DAXL3A7xgDb0MrYbixRx8m6Su08o?fields=sheets%2Fproperties%2Ftitle&key=AIzaSyAsaZWn7_HcXpR69f_wKRaSX1dQXwwlOxg
+  // Get all sheet names: https://sheets.googleapis.com/v4/spreadsheets/${sheetId}?fields=sheets%2Fproperties%2Ftitle&key=${sheetKey}
   // From https://stackoverflow.com/questions/55018655/get-all-data-of-multiple-worksheet-in-google-api-in-js
-  const jsonResponse = await fetch("https://sheets.googleapis.com/v4/spreadsheets/1oQronS_Sq679Oy1DAXL3A7xgDb0MrYbixRx8m6Su08o/values/2022-2023-T2?key=AIzaSyAsaZWn7_HcXpR69f_wKRaSX1dQXwwlOxg");
+  const jsonResponse = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/2022-2023-T2?key=${sheetKey}`);
   const data = await jsonResponse.json();
 
   const columnNames = data.values.shift();
