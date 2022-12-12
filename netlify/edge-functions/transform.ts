@@ -1,4 +1,4 @@
-import { Context } from "https://edge.netlify.com";
+import { Context } from "netlify:edge";
 
 export default async (request: Request, context: Context) => {
   const url = new URL(request.url);
@@ -13,7 +13,7 @@ export default async (request: Request, context: Context) => {
   let invoiceName;
 
   try {
-    invoiceName = atob(url.searchParams.get("id"));
+    invoiceName = atob(url.searchParams.get("id")!);
   } catch(e) {
     console.log(e);
     return new Response('<!doctype html><html><body>Invoice ID not found.</body></html>', response);
@@ -25,13 +25,13 @@ export default async (request: Request, context: Context) => {
   const data = await jsonResponse.json();
 
   const columnNames = data.values.shift();
-  const tokenNames = columnNames.map(item => `{{${item}}}`);
+  const tokenNames = columnNames.map((item: string) => `{{${item}}}`);
   const invoiceData = data.values;
-  let currentInvoice = invoiceData.find(item => item.includes(invoiceName));
+  let currentInvoice = invoiceData.find((item: string) => item.includes(invoiceName));
 
   currentInvoice.length = currentInvoice.length - 3; // Remove the last 3 columns, as they're not used
 
-  currentInvoice.forEach( (val,idx) =>  text = text.replaceAll(tokenNames[idx], val) );
+  currentInvoice.forEach( (val: string, idx: string) =>  text = text.replaceAll(tokenNames[idx], val) );
 
   return new Response(text, response);
 };
