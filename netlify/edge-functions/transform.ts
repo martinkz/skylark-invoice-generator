@@ -16,7 +16,7 @@ export default async (request: Request, context: Context) => {
 		invoiceNo = atob(url.searchParams.get("id")!);
   } catch(e) {
     console.log(e);
-    return new Response('<!doctype html><html><body>Invoice ID not found.</body></html>', response);
+    return new Response('<!doctype html><html><body>Invoice ID is not valid.</body></html>', response);
   }
 
   let sheetId: string = Deno.env.get("GOOGLE_SHEET_ID");
@@ -33,6 +33,10 @@ export default async (request: Request, context: Context) => {
   const tokenNames = columnNames.map((item: string) => `{{${item}}}`);
   const invoiceData = data.values;
   let currentInvoice = invoiceData.find((item: string) => item.includes(invoiceNo));
+
+	if(currentInvoice === undefined) {
+		return new Response('<!doctype html><html><body>Invoice ID not found.</body></html>', response);
+	}
 
   currentInvoice.length = currentInvoice.length - 3; // Remove the last 3 columns, as they're not used
 
