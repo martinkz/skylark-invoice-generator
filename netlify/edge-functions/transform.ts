@@ -30,8 +30,13 @@ export default async (request: Request, context: Context) => {
 
   // Get all sheet names: https://sheets.googleapis.com/v4/spreadsheets/${sheetId}?fields=sheets%2Fproperties%2Ftitle&key=${sheetKey}
   // From https://stackoverflow.com/questions/55018655/get-all-data-of-multiple-worksheet-in-google-api-in-js
-  const jsonResponse = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/2022-2023-T2?key=${sheetKey}`);
+  const jsonResponse = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/2023-2024-T1?key=${sheetKey}`);
   const data = await jsonResponse.json();
+	
+	if(data?.error) {
+		return new Response(`<!doctype html><html><body>Data source not found.</body></html>`, response);
+	}
+	
 
   const columnNames = data.values.shift();
   const tokenNames = columnNames.map((item: string) => `{{${item}}}`);
