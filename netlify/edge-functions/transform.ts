@@ -19,7 +19,7 @@ export default async (request: Request, context: Context) => {
   try {
 		invoiceNo = atob(id);
   } catch(e) {
-    console.log(e);
+    console.log(`Failed to decode base64 for id: ${id}`);
     return new Response(`<!doctype html><html><body>Invoice ID: ${id} is not valid.</body></html>`, response);
   }
 
