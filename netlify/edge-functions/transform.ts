@@ -42,7 +42,7 @@ export default async (request: Request, context: Context) => {
 		return new Response(`<!doctype html><html><body>Invoice ID: ${id} not found.</body></html>`, response);
 	}
 
-  currentInvoice.length = currentInvoice.length - 3; // Remove the last 3 columns, as they're not used
+  currentInvoice.length = currentInvoice.length - 4; // Remove the last 4 columns, as they're not used
 
   currentInvoice.forEach((val: string, idx: string) => (indexHtmlText = indexHtmlText.replaceAll(tokenNames[idx], val)));
 
