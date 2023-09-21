@@ -7,11 +7,14 @@ export default async (request: Request, context: Context) => {
   let indexHtmlText = await response.text();
 
 	const id = url.searchParams.get("id");
+	const sheetName = url.searchParams.get("term");
 
-  if (id === null) {
+  if (id === null || sheetName === null) {
 		return new Response(null, response);
 	} else if (id === '') {
 		return new Response("<!doctype html><html><body>Invoice ID is empty.</body></html>", response);
+	} else if (sheetName === '') {
+		return new Response("<!doctype html><html><body>Term was not provided.</body></html>", response);
 	}
 
   let invoiceNo: string;
@@ -30,7 +33,7 @@ export default async (request: Request, context: Context) => {
 
   // Get all sheet names: https://sheets.googleapis.com/v4/spreadsheets/${sheetId}?fields=sheets%2Fproperties%2Ftitle&key=${sheetKey}
   // From https://stackoverflow.com/questions/55018655/get-all-data-of-multiple-worksheet-in-google-api-in-js
-  const jsonResponse = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/2023-2024-T1?key=${sheetKey}`);
+  const jsonResponse = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${sheetKey}`);
   const data = await jsonResponse.json();
 	
 	if(data?.error) {
