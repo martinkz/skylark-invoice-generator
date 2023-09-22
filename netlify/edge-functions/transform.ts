@@ -26,6 +26,11 @@ export default async (request: Request, context: Context) => {
     return new Response(`<!doctype html><html><body>Invoice ID: ${id} is not valid.</body></html>`, response);
   }
 
+	// Validate invoice number format against SF##-#### (# = number)
+	if (!invoiceNo.match(/SF\d{2}-\d{4}$/)) {
+		return new Response(`<!doctype html><html><body>Unrecognised Invoice No format.</body></html>`, response);
+	}
+
   let sheetId: string = Deno.env.get("GOOGLE_SHEET_ID");
   let sheetKey: string = Deno.env.get("GOOGLE_SHEET_KEY");
 
