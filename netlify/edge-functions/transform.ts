@@ -12,9 +12,9 @@ export default async (request: Request, context: Context) => {
   if (id === null || sheetName === null) {
 		return new Response(null, response);
 	} else if (id === '') {
-		return new Response("<!doctype html><html><body>Invoice ID is empty.</body></html>", response);
+		return new Response("Invoice ID is empty", response);
 	} else if (sheetName === '') {
-		return new Response("<!doctype html><html><body>Term was not provided.</body></html>", response);
+		return new Response("Term was not provided", response);
 	}
 
   let invoiceNo: string;
@@ -23,12 +23,12 @@ export default async (request: Request, context: Context) => {
 		invoiceNo = atob(id);
   } catch(e) {
     console.log(`Failed to decode base64 for id: ${id}`);
-    return new Response(`<!doctype html><html><body>Invoice ID: ${id} is not valid.</body></html>`, response);
+    return new Response(`Invoice ID: ${id} is not valid`, response);
   }
 
 	// Validate invoice number format against SF##-#### (# = number)
 	if (!invoiceNo.match(/SF\d{2}-\d{4}$/)) {
-		return new Response(`<!doctype html><html><body>Unrecognised Invoice No format.</body></html>`, response);
+		return new Response(`Unrecognised Invoice No. format`, response);
 	}
 
   let sheetId: string = Deno.env.get("GOOGLE_SHEET_ID");
@@ -42,7 +42,7 @@ export default async (request: Request, context: Context) => {
   const data = await jsonResponse.json();
 	
 	if(data?.error) {
-		return new Response(`<!doctype html><html><body>Data source not found.</body></html>`, response);
+		return new Response(`Data source not found`, response);
 	}
 	
 
@@ -52,7 +52,7 @@ export default async (request: Request, context: Context) => {
   let currentInvoice = invoiceData.find((item: string) => item.includes(invoiceNo));
 	
 	if(currentInvoice === undefined) {
-		return new Response(`<!doctype html><html><body>Invoice ID: ${id} not found.</body></html>`, response);
+		return new Response(`Invoice ID: ${id} not found`, response);
 	}
 
   currentInvoice.forEach((val: string, idx: string) => (indexHtmlText = indexHtmlText.replaceAll(tokenNames[idx], val)));
