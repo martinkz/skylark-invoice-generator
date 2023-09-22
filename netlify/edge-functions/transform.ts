@@ -45,12 +45,10 @@ export default async (request: Request, context: Context) => {
   const tokenNames = columnNames.map((item: string) => `{{${item}}}`);
   const invoiceData = data.values;
   let currentInvoice = invoiceData.find((item: string) => item.includes(invoiceNo));
-
+	
 	if(currentInvoice === undefined) {
 		return new Response(`<!doctype html><html><body>Invoice ID: ${id} not found.</body></html>`, response);
 	}
-
-  currentInvoice.length = currentInvoice.length - 3; // Remove the last 3 columns, as they're not used
 
   currentInvoice.forEach((val: string, idx: string) => (indexHtmlText = indexHtmlText.replaceAll(tokenNames[idx], val)));
 
