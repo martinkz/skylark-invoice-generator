@@ -78,10 +78,10 @@
     .invoice-details > .grid-row {
       padding: 0 10px;
     }
-    .invoice-details > .grid-row:first-child {
+    .invoice-details > .grid-row:nth-child(odd) {
       background: #eee;
     }
-    .invoice-details > .grid-row:last-child {
+    .invoice-details > .grid-row:nth-child(even) {
       background: #ddd;
     }
     .m-top-0 {
@@ -143,6 +143,14 @@
           </div>
           <div class="grid-col">
             <p>{{Invoice No}}</p>
+          </div>
+        </div>
+        <div class="grid-row"></div>
+          <div class="grid-col">
+            <p><strong>Reference</strong></p>
+          </div>
+          <div class="grid-col">
+            <p>{{Reference}}</p>
           </div>
         </div>
       </div>
