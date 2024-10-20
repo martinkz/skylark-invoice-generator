@@ -56,7 +56,7 @@ export default async (request: Request, context: Context) => {
 	}
 
   currentInvoice.forEach((val: string, idx: string) => (indexHtmlText = indexHtmlText.replaceAll(tokenNames[idx], val)));
-  indexHtmlText = indexHtmlText.replaceAll("Term", sheetName); // Term comes from the URL instead of spreadsheet
+  indexHtmlText = indexHtmlText.replaceAll("{{Term}}", sheetName); // Term comes from the URL instead of spreadsheet
 
   return new Response(indexHtmlText, response);
 };
